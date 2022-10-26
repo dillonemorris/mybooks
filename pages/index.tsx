@@ -9,10 +9,7 @@ const Home: NextPage = () => {
         <meta name="description" content="A place to search and add books" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main>
-        <h1 className="text-2xl font-bold underline">Hello world.</h1>
-      </main>
+      <h1 className="text-4xl font-bold underline">Hello world.</h1>
     </div>
   )
 }
