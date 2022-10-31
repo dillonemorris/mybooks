@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
+    "@next/font": "^13.0.0",
+    "@prisma/client": "4.5.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "next": "^13.0.0",
+    "prisma": "^4.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
