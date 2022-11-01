@@ -13,9 +13,8 @@ model Book {
   description String?
   author      String
   createdAt   DateTime @default(now()) @map(name: "created_at")
-  startedAt   DateTime @default(now()) @map(name: "started_at")
-  finishedAt  DateTime @default(now()) @map(name: "finished_at")
-  User        User?    @relation(fields: [userId], references: [id])
+  finishedAt  DateTime?
+  user        User?    @relation(fields: [userId], references: [id])
   userId      String?
 }
 
