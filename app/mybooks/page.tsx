@@ -1,5 +1,6 @@
 import type { Book } from '@prisma/client'
 import prisma from '../../lib/prisma'
+import Link from 'next/link'
 
 const getBooks = async () => {
   // TODO: Make it so we only fetch the ones with the
@@ -12,11 +13,15 @@ const getBooks = async () => {
 const MyBooks = async () => {
   const books = await getBooks()
 
-  console.log(books)
-
   return (
     <div>
-      <h1 className="text-4xl font-bold underline">Hello world 🌎</h1>
+      {books.map((book) => {
+        return (
+          <Link key={book.id} href={`mybooks/${book.id}`}>
+            {book.title}
+          </Link>
+        )
+      })}
     </div>
   )
 }
