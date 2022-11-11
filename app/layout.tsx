@@ -7,7 +7,7 @@ const inter = Inter()
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className={inter.className}>
-      <body>
+      <body className="bg-slate-50">
         <nav className="p-4">
           <Link className="p-4" href="/mybooks">
             My Books
@@ -18,7 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           </Link>
         </nav>
 
-        <main className="max-w-sm m-auto p-4">{children}</main>
+        <main className="max-w-screen-md m-auto p-4">{children}</main>
       </body>
     </html>
   )
