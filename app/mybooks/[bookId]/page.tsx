@@ -12,6 +12,8 @@ const getBookById = async (id) => {
 const Book = async ({ params }) => {
   const book = await getBookById(params.bookId)
 
+  console.log(book)
+
   return (
     <div>
       <h1 className="text-4xl font-bold underline">{book.title}</h1>

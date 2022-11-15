@@ -1,24 +1,23 @@
-import { Inter } from '@next/font/google'
-import Link from 'next/link'
 import './global.css'
+import { Inter } from '@next/font/google'
+import { AuthSessionProvider } from './AuthSessionProvider'
+import { Nav } from './Nav'
 
 const inter = Inter()
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className={inter.className}>
-      <body className="bg-slate-50">
-        <nav className="p-4">
-          <Link className="p-4" href="/mybooks">
-            My Books
-          </Link>
-          {/*TODO: Create discover page and link here*/}
-          <Link className="p-4" href="/discover">
-            Discover
-          </Link>
-        </nav>
+      <body className="bg-slate-100 h-full">
+        <AuthSessionProvider>
+          <div className="min-h-full">
+            <div className="bg-blue-600 pb-48">
+              <Nav />
+            </div>
 
-        <main className="max-w-screen-md m-auto p-4">{children}</main>
+            {children}
+          </div>
+        </AuthSessionProvider>
       </body>
     </html>
   )
