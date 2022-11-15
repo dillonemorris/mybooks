@@ -3,9 +3,13 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { Spacer } from '../../components/Spacer'
+import useSWR from 'swr'
 
 const MyBooks = () => {
-  const books = []
+  // TODO: Move fetcher to global config wrapper
+  const { data: books } = useSWR('/api/mybooks', (resource, init) =>
+    fetch(resource, init).then((res) => res.json())
+  )
 
   if (!books.length) {
     return <EmptyMyBooks />
