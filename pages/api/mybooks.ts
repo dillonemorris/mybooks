@@ -5,17 +5,22 @@ export default async function handler(req, res) {
   const session = await getSession({ req })
 
   if (!session) {
-    res.statusCode = 403
-    return { books: [] }
+    res.status(403).json({ books: [] })
   }
 
   if (req.method === 'GET') {
-    const books = await prisma.book.findMany({
-      where: {
-        user: { email: session.user.email },
-      },
-    })
+    try {
+      const response = await prisma.book.findMany({
+        where: {
+          user: { email: session.user.email },
+        },
+      })
 
-    res.json(books)
+      const books = response || []
+
+      res.status(200).json({ books })
+    } catch (err) {
+      res.status(500).json({ error: 'failed to load data' })
+    }
   }
 }

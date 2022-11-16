@@ -6,11 +6,11 @@ import {
   XMarkIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline'
+import { BookOpenIcon } from '@heroicons/react/20/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useUser } from '../hooks/useUser'
 import { usePathname } from 'next/navigation'
-import { signOut, useSession } from 'next-auth/react'
 import { useIsLoggedIn } from '../hooks/useIsLoggedIn'
 
 export const Nav = () => {
@@ -25,16 +25,11 @@ export const Nav = () => {
     >
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-screen-lg px-2 sm:px-4 lg:px-8">
+          <div className="mx-auto max-w-screen-md px-2 sm:px-4 lg:px-8">
             <div className="relative flex h-16 items-center justify-between lg:border-b lg:border-blue-400 lg:border-opacity-25">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
-                  {/*TODO: Replace w/ custom logo*/}
-                  <img
-                    className="block h-8 w-8"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=300"
-                    alt="Your Company"
-                  />
+                  <BookOpenIcon className="mx-auto h-9 w-9 text-blue-300" />
                 </div>
                 <div className="hidden lg:ml-10 lg:block">
                   <div className="flex space-x-4">
