@@ -56,7 +56,7 @@ const UnAuthenticated = () => {
         It looks like you're not logged in.
       </h3>
       <div className="mt-2 max-w-xl text-sm text-gray-500">
-        <p>Go to our Github log in page to log in</p>
+        <p>Go to our Github page to log in</p>
       </div>
       <div className="mt-5">
         <Link
