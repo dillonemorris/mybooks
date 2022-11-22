@@ -1,6 +1,6 @@
 import './global.css'
 import { Inter } from '@next/font/google'
-import { AuthSessionProvider } from './AuthSessionProvider'
+import { Providers } from './providers'
 import { Nav } from './Nav'
 
 const inter = Inter()
@@ -9,7 +9,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-slate-100 h-full">
-        <AuthSessionProvider>
+        <Providers>
           <div className="min-h-full">
             <div className="bg-blue-600 pb-48">
               <Nav />
@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
             {children}
           </div>
-        </AuthSessionProvider>
+        </Providers>
       </body>
     </html>
   )

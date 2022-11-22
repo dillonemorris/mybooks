@@ -1,26 +1,18 @@
 'use client'
 
-import { Suspense } from 'react'
 import Link from 'next/link'
 import useSWR from 'swr'
-import Loading from './loading'
 import { useSession } from 'next-auth/react'
 import {
   BookOpenIcon,
   MagnifyingGlassPlusIcon,
 } from '@heroicons/react/20/solid'
-import { BookListItem } from './BookListItem'
+import { BookListItem } from '../../components/BookListItem'
+import { BookList } from '../../components/BookList'
 
 const MyBooks = () => {
   const { status } = useSession()
-
-  // TODO: Move fetcher to global config wrapper
-  const { data } = useSWR(
-    '/api/mybooks',
-    (resource, init) => fetch(resource, init).then((res) => res.json()),
-    { suspense: true }
-  )
-
+  const { data } = useSWR('/api/mybooks')
   const { books } = data
 
   if (status === 'unauthenticated') {
@@ -32,20 +24,18 @@ const MyBooks = () => {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <ul className="flex flex-col divide-y divide-gray-200">
-        {books.map((book) => {
-          return (
-            <BookListItem
-              key={book.id}
-              href={`mybooks/${book.id}`}
-              title={book.title}
-              description={book.description}
-            />
-          )
-        })}
-      </ul>
-    </Suspense>
+    <BookList>
+      {books.map((book) => {
+        return (
+          <BookListItem
+            key={book.id}
+            href={`mybooks/${book.id}`}
+            title={book.title}
+            description={book.description}
+          />
+        )
+      })}
+    </BookList>
   )
 }
 
