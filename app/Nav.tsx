@@ -14,9 +14,9 @@ import { usePathname } from 'next/navigation'
 import { useIsLoggedIn } from '../hooks/useIsLoggedIn'
 
 export const Nav = () => {
-  const userNavigation = useUserNavigation()
-  const navigation = useNavigation()
   const user = useUser()
+  const navigation = useNavigation()
+  const userNavigation = useUserNavigation()
 
   return (
     <Disclosure

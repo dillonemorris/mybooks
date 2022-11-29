@@ -10,7 +10,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en" className={inter.className}>
       <body className="bg-slate-100 h-full">
         <Providers>
-          <div className="min-h-full">
+          <div className="min-h-full pb-48">
             <div className="bg-blue-600 pb-48">
               <Nav />
             </div>
