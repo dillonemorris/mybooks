@@ -8,19 +8,18 @@ export default async function handler(req, res) {
     res.status(403).json({ books: [] })
   }
 
-  if (req.method === 'GET') {
-    try {
-      const response = await prisma.book.findMany({
-        where: {
-          user: { email: session.user.email },
-        },
-      })
+  try {
+    const response = await prisma.book.findMany({
+      where: {
+        user: { email: session.user.email },
+        title: { contains: req.query.q, mode: 'insensitive' },
+      },
+    })
 
-      const books = response || []
+    const books = response || []
 
-      res.status(200).json({ books })
-    } catch (err) {
-      res.status(500).json({ error: 'failed to load data' })
-    }
+    res.status(200).json({ books })
+  } catch (err) {
+    res.status(500).json({ error: 'failed to load data' })
   }
 }

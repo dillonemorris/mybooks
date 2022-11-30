@@ -1,7 +1,8 @@
 import { books } from '@googleapis/books'
 import { BookList } from '../../components/BookList'
 import { BookListItem } from '../../components/BookListItem'
-import Link from 'next/link'
+import { BookOpenIcon } from '@heroicons/react/20/solid'
+import { SearchInput } from '../../components/SearchInput'
 
 const getBooks = async (query) => {
   const booksApi = await books({
@@ -26,40 +27,33 @@ const getBooks = async (query) => {
   }
 }
 
-// TODO:
-// When a search is entered into the input,
-// there's a route change and a query comes through here as a param.
-// With that param we fetch the results and server render them.
 const Discover = async ({ searchParams }) => {
   const data = await getBooks(searchParams.q)
   const { books } = data
-  const query = 'Lizzo'
 
-  if (!books.length) {
-    // TODO: Use tailwind UI component here
+  if (!books?.length) {
     return (
-      <Link
-        href={{
-          pathname: '/discover',
-          query: { q: query },
-        }}
-      >
-        Search for {query} books
-      </Link>
+      <div className="text-center py-12 max-w-sm mx-auto">
+        <BookOpenIcon
+          className="mx-auto h-12 w-12 text-gray-400"
+          aria-hidden="true"
+        />
+
+        <h3 className="mt-2 text-sm font-medium text-gray-900">
+          No books found
+        </h3>
+        <p className="mt-1 text-sm text-gray-500">
+          Try entering a new or different search below
+        </p>
+        <div className="mt-6">
+          <SearchInput />
+        </div>
+      </div>
     )
   }
 
-  // TODO: Search input and empty state
   return (
     <BookList>
-      <Link
-        href={{
-          pathname: '/discover',
-          query: { q: 'Series of unfortunate events' },
-        }}
-      >
-        Search for books
-      </Link>
       {books.map((book) => {
         return (
           <BookListItem
@@ -68,7 +62,7 @@ const Discover = async ({ searchParams }) => {
             href={`mybooks/${book.id}`}
             title={book.volumeInfo.title}
             // TODO: Decode this string if we are going to use it
-            description={book.volumeInfo.description}
+            description={book.searchInfo.textSnippet}
           />
         )
       })}

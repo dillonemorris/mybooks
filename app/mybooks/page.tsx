@@ -10,9 +10,13 @@ import {
 import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
 
-const MyBooks = () => {
+const MyBooks = ({ searchParams }) => {
   const { status } = useSession()
-  const { data } = useSWR('/api/mybooks')
+  const myBooksKey = searchParams.q
+    ? `/api/mybooks?q=${searchParams.q}`
+    : '/api/mybooks'
+
+  const { data } = useSWR(myBooksKey)
   const { books } = data
 
   if (status === 'unauthenticated') {
@@ -26,6 +30,7 @@ const MyBooks = () => {
   return (
     <BookList>
       {books.map((book) => {
+        console.log(book)
         return (
           <BookListItem
             key={book.id}
@@ -62,7 +67,7 @@ const UnAuthenticated = () => {
 
 const NoBooks = () => {
   return (
-    <div className="text-center">
+    <div className="text-center py-12">
       <BookOpenIcon
         className="mx-auto h-12 w-12 text-gray-400"
         aria-hidden="true"
@@ -72,6 +77,7 @@ const NoBooks = () => {
       <p className="mt-1 text-sm text-gray-500">
         Get started by discovering a book.
       </p>
+      {/*TODO: Change this to a search input??*/}
       <div className="mt-6">
         <Link
           href="/discover"

@@ -6,12 +6,13 @@ import {
   XMarkIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline'
-import { BookOpenIcon } from '@heroicons/react/20/solid'
+import { BookOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useUser } from '../hooks/useUser'
 import { usePathname } from 'next/navigation'
 import { useIsLoggedIn } from '../hooks/useIsLoggedIn'
+import { SearchInput } from '../components/SearchInput'
 
 export const Nav = () => {
   const user = useUser()
@@ -34,6 +35,7 @@ export const Nav = () => {
                 <div className="hidden lg:ml-10 lg:block">
                   <div className="flex space-x-4">
                     <DesktopLinks />
+                    <SearchInput />
                   </div>
                 </div>
               </div>
