@@ -10,8 +10,8 @@ generator client {
 model Book {
   id          String   @id @default(cuid())
   title       String
-  description String?
-  author      String
+  author      String[]
+  image       String?
   createdAt   DateTime @default(now()) @map(name: "created_at")
   finishedAt  DateTime?
   user        User?    @relation(fields: [userId], references: [id])

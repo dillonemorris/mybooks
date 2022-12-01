@@ -1,8 +1,10 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
+type SearchInputProps = { type?: 'basic' | 'primary' }
+
 // TODO: Make the style customizable
-// Possibly by allowing consumer to pass a `className` that goes to the input?
-export const SearchInput = () => {
+// https://www.smashingmagazine.com/2020/05/reusable-react-components-tailwind/#method-2-using-constants-to-define-a-design-system
+export const SearchInput = ({ type = 'basic' }: SearchInputProps) => {
   return (
     <div className="px-2 lg:px-6">
       <label htmlFor="search" className="sr-only">

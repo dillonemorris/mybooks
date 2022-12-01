@@ -30,13 +30,12 @@ const MyBooks = ({ searchParams }) => {
   return (
     <BookList>
       {books.map((book) => {
-        console.log(book)
         return (
           <BookListItem
             key={book.id}
             href={`mybooks/${book.id}`}
             title={book.title}
-            description={book.description}
+            author={book.author}
           />
         )
       })}
