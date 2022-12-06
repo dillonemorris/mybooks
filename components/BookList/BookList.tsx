@@ -1,3 +1,7 @@
 export const BookList = ({ children }) => {
-  return <ul className="flex flex-col divide-y divide-gray-200">{children}</ul>
+  return (
+    <ul role="list" className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+      {children}
+    </ul>
+  )
 }

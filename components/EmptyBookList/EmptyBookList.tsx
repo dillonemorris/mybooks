@@ -1,22 +1,17 @@
-const items = Array.from({ length: 5 })
+const EMPTY_ITEM_COUNT = 16
+const items = Array.from({ length: EMPTY_ITEM_COUNT })
 
 export const EmptyBookList = () => {
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-md">
-      <ul role="list" className="divide-y divide-gray-200">
-        {items.map((item, i) => (
-          <EmptyBookListItem key={i} />
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-const EmptyBookListItem = () => {
-  return (
-    <li className="py-4 sm:py-7 px-3 sm:px-6 lg:px-8 flex">
-      <div className="h-12 w-12 rounded-full bg-gray-100" />
-      <div className="h-12 w-full bg-gray-100 rounded ml-3 " />
-    </li>
+    <ul role="list" className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+      {items.map((item, i) => (
+        <li
+          key={i}
+          className="bg-white flex rounded-lg overflow-hidden shadow-sm"
+        >
+          <div className="h-30 bg-white w-full rounded ml-3 " />
+        </li>
+      ))}
+    </ul>
   )
 }

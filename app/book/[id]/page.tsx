@@ -1,5 +1,4 @@
 import { books } from '@googleapis/books'
-import { PageLayout } from '../../../components/PageLayout'
 
 const getBookById = async (id) => {
   const booksApi = await books({
@@ -10,17 +9,25 @@ const getBookById = async (id) => {
   try {
     const response = await booksApi.volumes.get({ volumeId: id })
 
+    console.log({ response })
+
     return response.data
   } catch (error) {
-    return error
+    console.log(error)
   }
 }
 
-// TODO: Can we fetch the google books info on the server?
 const Book = async ({ params }) => {
   const book = await getBookById(params.id)
 
-  return <h2>{book.volumeInfo.authors[0]}</h2>
+  // TODO: create fallback image
+  const imageUrl = book.volumeInfo.imageLinks?.thumbnail || ''
+
+  return (
+    <div>
+      <img className="rounded-lg border-4 border-slate-100" src={imageUrl} />
+    </div>
+  )
 }
 
 export default Book

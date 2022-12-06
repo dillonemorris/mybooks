@@ -1,10 +1,10 @@
 import { books } from '@googleapis/books'
-import { BookList } from '../../components/BookList'
-import { BookListItem } from '../../components/BookListItem'
 import { BookOpenIcon } from '@heroicons/react/20/solid'
 import { SearchInput } from '../../components/SearchInput'
+import { BookListItem } from '../../components/BookListItem'
+import { BookList } from '../../components/BookList'
 
-const getBooks = async (query) => {
+const getBooksBySearch = async (query) => {
   const booksApi = await books({
     version: 'v1',
     auth: process.env.GOOGLE_BOOKS_API_KEY,
@@ -18,7 +18,7 @@ const getBooks = async (query) => {
     const response = await booksApi.volumes.list({
       q: `intitle:${query}`,
       printType: 'books',
-      maxResults: 10,
+      maxResults: 20,
     })
 
     return { books: response.data.items }
@@ -28,12 +28,12 @@ const getBooks = async (query) => {
 }
 
 const Discover = async ({ searchParams }) => {
-  const data = await getBooks(searchParams.q)
+  const data = await getBooksBySearch(searchParams.q)
   const { books } = data
 
   if (!books?.length) {
     return (
-      <div className="text-center py-12 max-w-sm mx-auto">
+      <div className="text-center py-32 max-w-sm mx-auto">
         <BookOpenIcon
           className="mx-auto h-12 w-12 text-gray-400"
           aria-hidden="true"
@@ -55,7 +55,6 @@ const Discover = async ({ searchParams }) => {
   return (
     <BookList>
       {books.map((book) => {
-        console.log(book)
         // TODO: This should convert the string of author arrays
         // to join them with an &
         const author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : ''

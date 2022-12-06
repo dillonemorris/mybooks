@@ -6,7 +6,7 @@ import {
   XMarkIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline'
-import { BookOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { BookOpenIcon } from '@heroicons/react/20/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useUser } from '../hooks/useUser'
@@ -26,7 +26,7 @@ export const Nav = () => {
     >
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-screen-md px-2 sm:px-4 lg:px-8">
+          <div className="mx-auto max-w-screen-lg">
             <div className="relative flex h-16 items-center justify-between lg:border-b lg:border-blue-400 lg:border-opacity-25">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
@@ -35,7 +35,7 @@ export const Nav = () => {
                 <div className="hidden lg:ml-10 lg:block">
                   <div className="flex space-x-4">
                     <DesktopLinks />
-                    <SearchInput />
+                    <SearchInput type="primary" />
                   </div>
                 </div>
               </div>

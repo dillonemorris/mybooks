@@ -1,11 +1,7 @@
 export const Header = ({ children }) => {
   return (
-    <header className="pb-10">
-      <div className="mx-auto max-w-screen-md px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-white">
-          {children}
-        </h1>
-      </div>
+    <header className="pb-10 mx-auto max-w-screen-lg px-2 lg:px-0">
+      {children}
     </header>
   )
 }
