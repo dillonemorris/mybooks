@@ -14,6 +14,30 @@ import { usePathname } from 'next/navigation'
 import { useIsLoggedIn } from '../hooks/useIsLoggedIn'
 import { SearchInput } from '../components/SearchInput'
 
+const DesktopLinks = () => {
+  const navigation = useNavigation()
+
+  return (
+    <>
+      {navigation.map((item) => (
+        <Link
+          key={item.name}
+          href={item.href}
+          className={classNames(
+            item.current
+              ? 'bg-blue-700 text-white'
+              : 'text-white hover:bg-blue-500 hover:bg-opacity-75',
+            'rounded-md py-2 px-3 text-sm font-medium'
+          )}
+          aria-current={item.current ? 'page' : undefined}
+        >
+          {item.name}
+        </Link>
+      ))}
+    </>
+  )
+}
+
 export const Nav = () => {
   const user = useUser()
   const navigation = useNavigation()
@@ -108,30 +132,6 @@ export const Nav = () => {
         </>
       )}
     </Disclosure>
-  )
-}
-
-const DesktopLinks = () => {
-  const navigation = useNavigation()
-
-  return (
-    <>
-      {navigation.map((item) => (
-        <Link
-          key={item.name}
-          href={item.href}
-          className={classNames(
-            item.current
-              ? 'bg-blue-700 text-white'
-              : 'text-white hover:bg-blue-500 hover:bg-opacity-75',
-            'rounded-md py-2 px-3 text-sm font-medium'
-          )}
-          aria-current={item.current ? 'page' : undefined}
-        >
-          {item.name}
-        </Link>
-      ))}
-    </>
   )
 }
 

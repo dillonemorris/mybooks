@@ -3,6 +3,7 @@
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/classNames'
 import useSWR from 'swr'
+import { BASE_API_ROUTE } from '../../config'
 
 const ButtonType = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700',
@@ -13,10 +14,7 @@ export const BookButtons = () => {
   const hasBeenRead = false
   const wantToRead = false
 
-  // TODO: This is causing "Only absolute URLs supported error
-  const { data } = useSWR('/api/mybooks')
-
-  console.log(data, 'DATA')
+  const { data } = useSWR(`${BASE_API_ROUTE}/api/mybooks`)
 
   return (
     <div className="flex gap-2">

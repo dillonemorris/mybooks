@@ -4,19 +4,17 @@ import { SearchInput } from '../../components/SearchInput'
 import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
 
+const DEFAULT_QUERY = 'Harry Potter'
+
 const getBooksBySearch = async (query) => {
   const booksApi = await books({
     version: 'v1',
     auth: process.env.GOOGLE_BOOKS_API_KEY,
   })
 
-  if (!query) {
-    return { books: [] }
-  }
-
   try {
     const response = await booksApi.volumes.list({
-      q: `intitle:${query}`,
+      q: `intitle:${query || DEFAULT_QUERY}`,
       printType: 'books',
       maxResults: 20,
     })

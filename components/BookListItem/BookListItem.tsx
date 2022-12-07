@@ -17,7 +17,7 @@ export const BookListItem = ({
 }: BookListItemProps) => {
   return (
     <li className="bg-white flex rounded-lg overflow-hidden shadow-sm">
-      {/*TODO: create image fallback (placeholder image)*/}
+      {/*TODO: create image fallback (placeholder image) and change to next/image*/}
       <Link href={href}>
         <img
           className="h-full flex-shrink-0 flex"

@@ -9,12 +9,13 @@ import {
 } from '@heroicons/react/20/solid'
 import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
+import { BASE_API_ROUTE } from '../../config'
 
 const MyBooks = ({ searchParams }) => {
   const { status } = useSession()
-  const myBooksKey = searchParams.q
-    ? `/api/mybooks?q=${searchParams.q}`
-    : '/api/mybooks'
+  const myBooksKey = searchParams?.q
+    ? `${BASE_API_ROUTE}/api/mybooks?q=${searchParams.q}`
+    : `${BASE_API_ROUTE}/api/mybooks`
 
   const { data } = useSWR(myBooksKey)
   const { books } = data
