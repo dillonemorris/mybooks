@@ -36,6 +36,7 @@ const MyBooks = ({ searchParams }) => {
             href={`mybooks/${book.id}`}
             title={book.title}
             author={book.author}
+            imageUrl=""
           />
         )
       })}

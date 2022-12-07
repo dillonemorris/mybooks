@@ -26,7 +26,7 @@ export const Nav = () => {
     >
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-screen-lg">
+          <div className="mx-auto max-w-screen-md">
             <div className="relative flex h-16 items-center justify-between lg:border-b lg:border-blue-400 lg:border-opacity-25">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
