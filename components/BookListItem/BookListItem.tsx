@@ -1,20 +1,29 @@
 import Link from 'next/link'
 import { BookButtons as Buttons } from './BookButtons'
-import { StarIcon } from '@heroicons/react/20/solid'
+import { Rating } from '../Rating'
 
 type BookListItemProps = {
   title: string
-  author: string
+  authors?: string[]
   href: string
-  imageUrl: string
+  image: string
 }
 
 export const BookListItem = ({
   title,
-  author,
+  authors,
   href,
-  imageUrl,
+  image,
 }: BookListItemProps) => {
+  // TODO: Convert to reusable function
+  const author =
+    {
+      0: '',
+      1: authors[0],
+      2: authors.slice(-2).join(' & '),
+    }[authors.length] ||
+    `${authors.slice(0, -2).join(', ')}${authors.slice(-2).join(' & ')}`
+
   return (
     <li className="bg-white flex rounded-lg overflow-hidden shadow-sm">
       {/*TODO: create image fallback (placeholder image) and change to next/image*/}
@@ -22,7 +31,7 @@ export const BookListItem = ({
         <img
           className="h-full flex-shrink-0 flex"
           style={{ maxWidth: '6.5em', minWidth: '6.5rem' }}
-          src={imageUrl}
+          src={image}
           alt=""
         />
       </Link>
@@ -36,16 +45,10 @@ export const BookListItem = ({
         </a>
         <p className="sm:text-md text-sm text-gray-500">{author}</p>
 
-        <div className="flex gap-1 py-2">
-          <StarIcon className="w-4 h-4 text-gray-900" />
-          <StarIcon className="w-4 h-4 text-gray-900" />
-          <StarIcon className="w-4 h-4 text-gray-900" />
-          <StarIcon className="w-4 h-4 text-gray-900" />
-          <StarIcon className="w-4 h-4 text-gray-300" />
-        </div>
+        <Rating />
 
         <div className="mt-auto pt-2">
-          <Buttons />
+          {/*<Buttons book={{ title, authors, image }} />*/}
         </div>
       </div>
     </li>

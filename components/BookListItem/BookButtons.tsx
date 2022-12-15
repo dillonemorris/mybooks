@@ -1,25 +1,31 @@
 'use client'
 
+import useSWR from 'swr'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/classNames'
-import useSWR from 'swr'
 import { BASE_API_ROUTE } from '../../config'
+import { Book } from '@prisma/client'
 
 const ButtonType = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700',
   secondary: 'bg-blue-100 text-blue-700 hover:bg-blue-200',
 }
 
-export const BookButtons = () => {
+export const BookButtons = ({
+  book,
+}: {
+  book: { title: Book['title']; authors: Book['authors']; image: Book['image'] }
+}) => {
   const hasBeenRead = false
   const wantToRead = false
 
-  const { data } = useSWR(`${BASE_API_ROUTE}/api/mybooks`)
+  const createBook = useCreateBook(book)
 
   return (
     <div className="flex gap-2">
       <button
         type="button"
+        onClick={createBook}
         className={classNames(
           'inline-flex items-center rounded border border-transparent px-2.5 py-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
           wantToRead ? ButtonType.primary : ButtonType.secondary
@@ -44,4 +50,12 @@ export const BookButtons = () => {
       </button>
     </div>
   )
+}
+
+const useCreateBook = (book) => {
+  const { mutate } = useSWR(`${BASE_API_ROUTE}/api/book`)
+
+  return async () => {
+    await mutate(book)
+  }
 }

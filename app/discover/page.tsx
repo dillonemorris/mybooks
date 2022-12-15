@@ -53,16 +53,13 @@ const Discover = async ({ searchParams }) => {
   return (
     <BookList>
       {books.map((book) => {
-        // TODO: This should convert the string of author arrays
-        // to join them with an &
-        const author = book.volumeInfo.authors ? book.volumeInfo.authors[0] : ''
         return (
           <BookListItem
             key={book.id}
             href={`/book/${book.id}`}
             title={book.volumeInfo.title}
-            author={author}
-            imageUrl={book.volumeInfo?.imageLinks?.thumbnail}
+            authors={book.volumeInfo.authors}
+            image={book.volumeInfo?.imageLinks?.thumbnail}
           />
         )
       })}

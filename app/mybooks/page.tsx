@@ -10,6 +10,7 @@ import {
 import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
 import { BASE_API_ROUTE } from '../../config'
+import { Book } from '@prisma/client'
 
 const MyBooks = ({ searchParams }) => {
   const { status } = useSession()
@@ -17,7 +18,7 @@ const MyBooks = ({ searchParams }) => {
     ? `${BASE_API_ROUTE}/api/mybooks?q=${searchParams.q}`
     : `${BASE_API_ROUTE}/api/mybooks`
 
-  const { data } = useSWR(myBooksKey)
+  const { data } = useSWR<{ books: Book[] }>(myBooksKey)
   const { books } = data
 
   if (status === 'unauthenticated') {
@@ -36,8 +37,8 @@ const MyBooks = ({ searchParams }) => {
             key={book.id}
             href={`mybooks/${book.id}`}
             title={book.title}
-            author={book.author}
-            imageUrl=""
+            authors={book.authors}
+            image={book.image}
           />
         )
       })}

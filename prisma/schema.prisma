@@ -7,10 +7,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//TODO: Add googleBooksId property
+// This is needed so that we can check to see if
+// a book from google books search is also one of mybooks
+// googleBooksId === mybooks.find(book => book.id === googleBooksId)
+// This should be a required property
 model Book {
   id          String   @id @default(cuid())
   title       String
-  author      String[]
+  authors      String[]
   image       String?
   createdAt   DateTime @default(now()) @map(name: "created_at")
   finishedAt  DateTime?

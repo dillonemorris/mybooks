@@ -11,7 +11,7 @@ export const EmptyBookList = () => {
           key={i}
           className="bg-white flex rounded-lg h-36 shadow-sm overflow-hidden"
         >
-          <div className="w-36 bg-slate-200"></div>
+          <div className="w-36 bg-slate-100"></div>
           <div className="bg-white w-full rounded-lg ml-3 " />
         </li>
       ))}
