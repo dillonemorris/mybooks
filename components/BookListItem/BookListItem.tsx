@@ -7,6 +7,7 @@ type BookListItemProps = {
   authors?: string[]
   href: string
   image: string
+  googleBooksId?: string
 }
 
 export const BookListItem = ({
@@ -14,6 +15,7 @@ export const BookListItem = ({
   authors,
   href,
   image,
+  googleBooksId,
 }: BookListItemProps) => {
   // TODO: Convert to reusable function
   const author =
@@ -48,7 +50,7 @@ export const BookListItem = ({
         <Rating />
 
         <div className="mt-auto pt-2">
-          {/*<Buttons book={{ title, authors, image }} />*/}
+          <Buttons book={{ title, authors, image, googleBooksId }} />
         </div>
       </div>
     </li>

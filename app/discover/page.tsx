@@ -60,6 +60,7 @@ const Discover = async ({ searchParams }) => {
             title={book.volumeInfo.title}
             authors={book.volumeInfo.authors}
             image={book.volumeInfo?.imageLinks?.thumbnail}
+            googleBooksId={book.id}
           />
         )
       })}

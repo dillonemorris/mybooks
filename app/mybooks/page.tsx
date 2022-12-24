@@ -21,7 +21,7 @@ const MyBooks = ({ searchParams }) => {
   const { data } = useSWR<{ books: Book[] }>(myBooksKey)
   const { books } = data
 
-  if (status === 'unauthenticated') {
+  if (status !== 'authenticated') {
     return <UnAuthenticated />
   }
 
@@ -48,12 +48,12 @@ const MyBooks = ({ searchParams }) => {
 
 const UnAuthenticated = () => {
   return (
-    <div className="px-4 py-5 sm:p-6">
+    <div className="px-4 py-32 text-center">
       <h3 className="text-lg font-medium leading-6 text-gray-900">
         It looks like you're not logged in.
       </h3>
-      <div className="mt-2 max-w-xl text-sm text-gray-500">
-        <p>Go to our Github page to log in</p>
+      <div className="mt-2 text-sm text-gray-500">
+        <p>Go to our Github signin page to log in</p>
       </div>
       <div className="mt-5">
         <Link

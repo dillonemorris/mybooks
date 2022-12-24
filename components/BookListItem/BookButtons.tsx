@@ -1,21 +1,26 @@
 'use client'
 
-import useSWR from 'swr'
+import { useSWRConfig } from 'swr'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/classNames'
 import { BASE_API_ROUTE } from '../../config'
 import { Book } from '@prisma/client'
+
+type BookButtonsProps = {
+  book: {
+    title: Book['title']
+    authors: Book['authors']
+    image: Book['image']
+    googleBooksId: Book['googleBooksId']
+  }
+}
 
 const ButtonType = {
   primary: 'bg-blue-600 text-white hover:bg-blue-700',
   secondary: 'bg-blue-100 text-blue-700 hover:bg-blue-200',
 }
 
-export const BookButtons = ({
-  book,
-}: {
-  book: { title: Book['title']; authors: Book['authors']; image: Book['image'] }
-}) => {
+export const BookButtons = ({ book }: BookButtonsProps) => {
   const hasBeenRead = false
   const wantToRead = false
 
@@ -52,10 +57,24 @@ export const BookButtons = ({
   )
 }
 
-const useCreateBook = (book) => {
-  const { mutate } = useSWR(`${BASE_API_ROUTE}/api/book`)
+const createBook = async (book) => {
+  await fetch(`${BASE_API_ROUTE}/api/book`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(book),
+  })
+}
 
-  return async () => {
-    await mutate(book)
+const useCreateBook = (book) => {
+  const { mutate } = useSWRConfig()
+
+  return async (e) => {
+    e.preventDefault()
+
+    try {
+      await mutate(`${BASE_API_ROUTE}/api/book`, createBook(book))
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
