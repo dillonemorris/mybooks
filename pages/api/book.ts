@@ -7,7 +7,7 @@ export default async function handle(
   req: IncomingMessage & { body: Book },
   res
 ) {
-  const { title, authors, image, googleBooksId } = req.body
+  const { title, authors, image, googleBooksId, finishedAt } = req.body
 
   const session = await getSession({ req })
   const result = await prisma.book.create({
@@ -15,8 +15,9 @@ export default async function handle(
       title,
       authors,
       image,
-      user: { connect: { email: session?.user?.email } },
       googleBooksId,
+      finishedAt: finishedAt || null,
+      user: { connect: { email: session?.user?.email } },
     },
   })
 

@@ -18,13 +18,14 @@ export const BookListItem = ({
   googleBooksId,
 }: BookListItemProps) => {
   // TODO: Convert to reusable function
-  const author =
-    {
-      0: '',
-      1: authors[0],
-      2: authors.slice(-2).join(' & '),
-    }[authors.length] ||
-    `${authors.slice(0, -2).join(', ')}${authors.slice(-2).join(' & ')}`
+  const author = authors?.length
+    ? {
+        0: '',
+        1: authors[0],
+        2: authors.slice(-2).join(' & '),
+      }[authors.length] ||
+      `${authors.slice(0, -2).join(', ')}${authors.slice(-2).join(' & ')}`
+    : ''
 
   return (
     <li className="bg-white flex rounded-lg overflow-hidden shadow-sm">

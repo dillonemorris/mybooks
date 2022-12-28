@@ -15,6 +15,7 @@ export const Rating = () => {
         const isFilled = i + 1 <= rating
         return (
           <StarIcon
+            key={i}
             className={classNames(
               'w-4 h-4 hover:text-gray-900 cursor-pointer',
               isFilled ? 'text-gray-900' : 'text-gray-300'

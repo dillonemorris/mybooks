@@ -39,6 +39,7 @@ const MyBooks = ({ searchParams }) => {
             title={book.title}
             authors={book.authors}
             image={book.image}
+            googleBooksId={book.googleBooksId}
           />
         )
       })}
