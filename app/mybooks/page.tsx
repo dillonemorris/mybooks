@@ -11,6 +11,7 @@ import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
 import { BASE_API_ROUTE } from '../../config'
 import { Book } from '@prisma/client'
+import { EmptyBookList } from '../../components/EmptyBookList'
 
 const MyBooks = ({ searchParams }) => {
   const { status } = useSession()
@@ -20,6 +21,10 @@ const MyBooks = ({ searchParams }) => {
 
   const { data } = useSWR<{ books: Book[] }>(myBooksKey)
   const { books } = data
+
+  if (status === 'loading') {
+    return <EmptyBookList />
+  }
 
   if (status !== 'authenticated') {
     return <UnAuthenticated />

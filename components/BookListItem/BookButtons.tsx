@@ -1,10 +1,10 @@
 'use client'
 
+import { Book } from '@prisma/client'
 import useSWR, { useSWRConfig } from 'swr'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../utils/classNames'
 import { BASE_API_ROUTE } from '../../config'
-import { Book } from '@prisma/client'
 
 type BookButtonsProps = {
   book: {
@@ -28,17 +28,17 @@ export const BookButtons = ({ book }: BookButtonsProps) => {
   const wantToRead = !!myBook && !myBook.finishedAt
   const hasBeenRead = myBook?.finishedAt
 
-  const updateBook = useUpdateBook(myBook?.id)
+  const restartBook = useUpdateBook(myBook?.id, { finishedAt: null })
+  const finishBook = useUpdateBook(myBook?.id, { finishedAt: new Date() })
 
   // TODO:
-  // 1. Make updating from "Read" to "Want to read" work
-  // 2. Loading icon
+  // 1. Loading icon
 
   return (
     <div className="flex gap-2">
       <button
         type="button"
-        onClick={createBook}
+        onClick={!!myBook ? restartBook : createBook}
         className={classNames(
           'inline-flex items-center rounded border border-transparent px-2.5 py-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
           wantToRead ? ButtonType.primary : ButtonType.secondary
@@ -49,7 +49,7 @@ export const BookButtons = ({ book }: BookButtonsProps) => {
       </button>
       <button
         type="button"
-        onClick={!!myBook ? updateBook : createAndUpdateBook}
+        onClick={!!myBook ? finishBook : createAndUpdateBook}
         className={classNames(
           'inline-flex items-center rounded border border-transparent px-2.5 py-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
           hasBeenRead ? ButtonType.primary : ButtonType.secondary
@@ -107,7 +107,7 @@ const createBook = async (book) => {
   })
 }
 
-const useUpdateBook = (bookId) => {
+const useUpdateBook = (bookId, updates) => {
   const { mutate } = useSWRConfig()
 
   if (!bookId) {
@@ -118,7 +118,10 @@ const useUpdateBook = (bookId) => {
     e.preventDefault()
 
     try {
-      await mutate(`${BASE_API_ROUTE}/api/finish/${bookId}`, updateBook(bookId))
+      await mutate(
+        `${BASE_API_ROUTE}/api/update/${bookId}`,
+        updateBook(bookId, updates)
+      )
     } catch (error) {
       console.error(error)
     }
@@ -127,8 +130,10 @@ const useUpdateBook = (bookId) => {
   }
 }
 
-const updateBook = async (id) => {
-  await fetch(`${BASE_API_ROUTE}/api/finish/${id}`, {
-    method: 'PUT',
+const updateBook = async (id, updates) => {
+  await fetch(`${BASE_API_ROUTE}/api/update/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates),
   })
 }
