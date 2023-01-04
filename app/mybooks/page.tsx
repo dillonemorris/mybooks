@@ -40,7 +40,7 @@ const MyBooks = ({ searchParams }) => {
         return (
           <BookListItem
             key={book.id}
-            href={`mybooks/${book.id}`}
+            href={`book/${book.googleBooksId}`}
             title={book.title}
             authors={book.authors}
             image={book.image}
