@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookButtons as Buttons } from './BookButtons'
+import BookButtons from '../BookButtons'
 import { Rating } from '../Rating'
 import convertAuthorsToString from '../../utils/convertAuthorsToString'
 
@@ -44,7 +44,7 @@ export const BookListItem = ({
         <Rating />
 
         <div className="mt-auto pt-2">
-          <Buttons book={{ title, authors, image, googleBooksId }} />
+          <BookButtons book={{ title, authors, image, googleBooksId }} />
         </div>
       </div>
     </li>

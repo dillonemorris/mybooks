@@ -3,8 +3,8 @@
 import { Book } from '@prisma/client'
 import useSWR, { useSWRConfig } from 'swr'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
-import { classNames } from '../../utils/classNames'
 import { BASE_API_ROUTE } from '../../config'
+import './style.css'
 
 type BookButtonsProps = {
   book: {
@@ -15,21 +15,21 @@ type BookButtonsProps = {
   }
 }
 
-const ButtonType = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700',
-  secondary: 'bg-blue-100 text-blue-700 hover:bg-blue-200',
-}
-
-export const BookButtons = ({ book }: BookButtonsProps) => {
+const BookButtons = ({ book }: BookButtonsProps) => {
   const createBook = useCreateBook(book)
   const createAndUpdateBook = useCreateAndUpdateBook(book)
   const myBook = useMyBook(book.googleBooksId)
+  const { isValidating, data } = useMyBooks()
 
   const wantToRead = !!myBook && !myBook.finishedAt
-  const hasBeenRead = myBook?.finishedAt
+  const hasBeenRead = !!myBook?.finishedAt
 
   const restartBook = useUpdateBook(myBook?.id, { finishedAt: null })
   const finishBook = useUpdateBook(myBook?.id, { finishedAt: new Date() })
+
+  if (isValidating && !data) {
+    return null
+  }
 
   // TODO:
   // 1. Loading icon
@@ -39,10 +39,7 @@ export const BookButtons = ({ book }: BookButtonsProps) => {
       <button
         type="button"
         onClick={!!myBook ? restartBook : createBook}
-        className={classNames(
-          'inline-flex items-center rounded border border-transparent px-2.5 py-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-          wantToRead ? ButtonType.primary : ButtonType.secondary
-        )}
+        className={`base ${wantToRead ? 'active' : 'default'}`}
       >
         <CheckCircleIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
         Want to read
@@ -50,10 +47,7 @@ export const BookButtons = ({ book }: BookButtonsProps) => {
       <button
         type="button"
         onClick={!!myBook ? finishBook : createAndUpdateBook}
-        className={classNames(
-          'inline-flex items-center rounded border border-transparent px-2.5 py-1.5 text-xs font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-          hasBeenRead ? ButtonType.primary : ButtonType.secondary
-        )}
+        className={`base ${hasBeenRead ? 'active' : 'default'}`}
       >
         <CheckCircleIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
         Read
@@ -63,13 +57,13 @@ export const BookButtons = ({ book }: BookButtonsProps) => {
 }
 
 const useMyBook = (bookId) => {
-  const books = useMyBooks()
+  const { data } = useMyBooks()
 
-  return books?.find((myBook) => myBook.googleBooksId === bookId)
+  return data.books?.find((myBook) => myBook.googleBooksId === bookId)
 }
 
 const useMyBooks = () => {
-  return useSWR<{ books: Book[] }>(`${BASE_API_ROUTE}/api/mybooks`).data.books
+  return useSWR<{ books: Book[] }>(`${BASE_API_ROUTE}/api/mybooks`)
 }
 
 const useCreateAndUpdateBook = (book) => {
@@ -137,3 +131,5 @@ const updateBook = async (id, updates) => {
     body: JSON.stringify(updates),
   })
 }
+
+export default BookButtons

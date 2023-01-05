@@ -1,5 +1,4 @@
 import { StarIcon } from '@heroicons/react/20/solid'
-import { classNames } from '../../utils/classNames'
 
 const MAX_RATING_COUNT = 5
 
@@ -15,10 +14,9 @@ export const Rating = ({ rating = 3 }: RatingProps) => {
         return (
           <StarIcon
             key={i}
-            className={classNames(
-              'w-4 h-4 hover:text-gray-900 cursor-pointer',
+            className={`w-4 h-4 hover:text-gray-900 cursor-pointer ${
               isFilled ? 'text-slate-900' : 'text-slate-300'
-            )}
+            }`}
           />
         )
       })}

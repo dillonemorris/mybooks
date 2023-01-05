@@ -1,22 +1,13 @@
 import { books } from '@googleapis/books'
-import { BookButtons } from '../../../components/BookListItem/BookButtons'
 import { Rating } from '../../../components/Rating'
 import convertAuthorsToString from '../../../utils/convertAuthorsToString'
+import dynamic from 'next/dynamic'
 
-const getBookById = async (id) => {
-  const booksApi = await books({
-    version: 'v1',
-    auth: process.env.GOOGLE_BOOKS_API_KEY,
-  })
-
-  try {
-    const response = await booksApi.volumes.get({ volumeId: id })
-
-    return response.data
-  } catch (error) {
-    console.log(error)
-  }
-}
+const BookButtons = dynamic(() => import('../../../components/BookButtons'), {
+  ssr: false,
+  // TODO: Change to button skeleton (must be created)
+  loading: () => <p>Loading...</p>,
+})
 
 const Book = async ({ params }) => {
   const book = await getBookById(params.id)
@@ -39,6 +30,7 @@ const Book = async ({ params }) => {
       <p className="text-gray-600 text-md max-w-screen-md">
         {book.volumeInfo.description}
       </p>
+
       <BookButtons
         book={{
           title,
@@ -50,4 +42,20 @@ const Book = async ({ params }) => {
     </div>
   )
 }
+
+const getBookById = async (id) => {
+  const booksApi = await books({
+    version: 'v1',
+    auth: process.env.GOOGLE_BOOKS_API_KEY,
+  })
+
+  try {
+    const response = await booksApi.volumes.get({ volumeId: id })
+
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default Book

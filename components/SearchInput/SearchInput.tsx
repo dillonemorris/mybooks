@@ -1,18 +1,6 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { classNames } from '../../utils/classNames'
 
 type SearchInputProps = { type?: 'basic' | 'primary' }
-
-const InputType = {
-  primary: {
-    input: 'bg-blue-400 text-blue-100 placeholder-blue-200 bg-opacity-25',
-    icon: 'text-blue-200',
-  },
-  basic: {
-    input: 'bg-white text-gray-900 placeholder-gray-500',
-    icon: 'text-blue-500',
-  },
-}
 
 export const SearchInput = ({ type = 'basic' }: SearchInputProps) => {
   return (
@@ -21,10 +9,7 @@ export const SearchInput = ({ type = 'basic' }: SearchInputProps) => {
         Search books
       </label>
       <div
-        className={classNames(
-          'relative focus-within:text-gray-400',
-          InputType[type].icon
-        )}
+        className={`relative focus-within:text-gray-400 ${styles[type].icon}`}
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
@@ -33,10 +18,7 @@ export const SearchInput = ({ type = 'basic' }: SearchInputProps) => {
           <input
             id="search"
             name="q"
-            className={classNames(
-              'block w-full rounded-md border border-transparent py-2 pl-10 pr-3 leading-5 text-blue-100 focus:bg-white focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm',
-              InputType[type].input
-            )}
+            className={`block w-full rounded-md border border-transparent py-2 pl-10 pr-3 leading-5 text-blue-100 focus:bg-white focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm ${styles[type].input}`}
             placeholder="Search by title"
             type="search"
           />
@@ -44,4 +26,15 @@ export const SearchInput = ({ type = 'basic' }: SearchInputProps) => {
       </div>
     </div>
   )
+}
+
+const styles = {
+  primary: {
+    input: 'bg-blue-400 text-blue-100 placeholder-blue-200 bg-opacity-25',
+    icon: 'text-blue-200',
+  },
+  basic: {
+    input: 'bg-white text-gray-900 placeholder-gray-500',
+    icon: 'text-blue-500',
+  },
 }
