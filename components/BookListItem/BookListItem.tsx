@@ -1,7 +1,13 @@
 import Link from 'next/link'
-import BookButtons from '../BookButtons'
+import dynamic from 'next/dynamic'
 import { Rating } from '../Rating'
 import convertAuthorsToString from '../../utils/convertAuthorsToString'
+import { ButtonsLoading } from '../ButtonsLoading'
+
+const BookButtons = dynamic(() => import('../BookButtons'), {
+  ssr: false,
+  loading: () => <ButtonsLoading />,
+})
 
 type BookListItemProps = {
   title: string
