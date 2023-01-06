@@ -31,9 +31,6 @@ const BookButtons = ({ book }: BookButtonsProps) => {
     return null
   }
 
-  // TODO:
-  // 1. Loading icon
-
   return (
     <div className="flex gap-2">
       <button
