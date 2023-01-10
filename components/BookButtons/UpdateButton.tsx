@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { Book } from '@prisma/client'
-import { ArrowPathIcon } from '@heroicons/react/20/solid'
-import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import './style.css'
 import { useCreateBook, useMyBook, useUpdateBook } from './hooks'
+import { Button } from './Button'
 
-// TODO: Change to enum
+// TODO: Change to enum?
 type Status = 'idle' | 'loading' | 'error' | 'success'
 
 type UpdateButtonProps = {
@@ -17,8 +16,6 @@ type UpdateButtonProps = {
   }
 }
 
-// TODO: Possibly abstract a base button we can pass props to
-// so we don't have to import icons and apply styles twice
 export const UpdateButton = ({ book }: UpdateButtonProps) => {
   const myBook = useMyBook(book.googleBooksId)
   const [status, setStatus] = useState<Status>('idle')
@@ -27,21 +24,13 @@ export const UpdateButton = ({ book }: UpdateButtonProps) => {
   const finishBook = useFinishBook(book, setStatus)
 
   return (
-    <button
-      type="button"
+    <Button
       onClick={!!myBook ? finishBook : createAndUpdateBook}
-      className={`base ${hasBeenRead ? 'active' : 'default'}`}
+      isActive={hasBeenRead}
+      isLoading={status === 'loading'}
     >
-      {status === 'loading' ? (
-        <ArrowPathIcon
-          className="animate-spin -ml-1 mr-2 h-5 w-5"
-          aria-hidden="true"
-        />
-      ) : (
-        <CheckCircleIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-      )}
       Read
-    </button>
+    </Button>
   )
 }
 
