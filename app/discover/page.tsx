@@ -4,8 +4,6 @@ import { SearchInput } from '../../components/SearchInput'
 import { BookListItem } from '../../components/BookListItem'
 import { BookList } from '../../components/BookList'
 
-const DEFAULT_QUERY = 'Harry Potter'
-
 const getBooksBySearch = async (query) => {
   const booksApi = await books({
     version: 'v1',
@@ -14,7 +12,7 @@ const getBooksBySearch = async (query) => {
 
   try {
     const response = await booksApi.volumes.list({
-      q: `intitle:${query || DEFAULT_QUERY}`,
+      q: query ? `intitle:${query}` : null,
       printType: 'books',
       maxResults: 20,
     })
