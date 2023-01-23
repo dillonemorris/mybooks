@@ -23,12 +23,11 @@ const DesktopLinks = () => {
         <Link
           key={item.name}
           href={item.href}
-          className={classNames(
+          className={`${
             item.current
               ? 'bg-blue-700 text-white'
-              : 'text-white hover:bg-blue-500 hover:bg-opacity-75',
-            'rounded-md py-2 px-3 text-sm font-medium'
-          )}
+              : 'text-white hover:bg-blue-500 hover:bg-opacity-75'
+          } rounded-md py-2 px-3 text-sm font-medium`}
           aria-current={item.current ? 'page' : undefined}
         >
           {item.name}
@@ -89,12 +88,11 @@ export const Nav = () => {
                   key={item.name}
                   as={Link}
                   href={item.href}
-                  className={classNames(
+                  className={`${
                     item.current
                       ? 'bg-blue-700 text-white'
-                      : 'text-white hover:bg-blue-500 hover:bg-opacity-75',
-                    'block rounded-md py-2 px-3 text-base font-medium'
-                  )}
+                      : 'text-white hover:bg-blue-500 hover:bg-opacity-75'
+                  } block rounded-md py-2 px-3 text-base font-medium`}
                   aria-current={item.current ? 'page' : undefined}
                 >
                   {item.name}
@@ -160,10 +158,9 @@ const DesktopProfileDropdown = () => {
               {({ active }) => (
                 <Link
                   href={item.href}
-                  className={classNames(
-                    active ? 'bg-gray-100' : '',
-                    'block py-2 px-4 text-sm text-gray-700'
-                  )}
+                  className={`${
+                    active ? 'bg-gray-100' : ''
+                  } block py-2 px-4 text-sm text-gray-700`}
                 >
                   {item.name}
                 </Link>

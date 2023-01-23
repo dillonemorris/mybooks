@@ -4,17 +4,18 @@ const MAX_RATING_COUNT = 5
 
 const array = Array.from({ length: MAX_RATING_COUNT })
 
-type RatingProps = { rating?: number }
+type RatingProps = { rating: number }
 
-export const Rating = ({ rating = 3 }: RatingProps) => {
+export const RatingStars = ({ rating }: RatingProps) => {
   return (
     <div className="flex gap-1 py-2">
       {array.map((_, i) => {
+        // TODO: Account for .5 ratings (display half-filled star)
         const isFilled = i + 1 <= rating
         return (
           <StarIcon
             key={i}
-            className={`w-4 h-4 hover:text-gray-900 cursor-pointer ${
+            className={`w-4 h-4 ${
               isFilled ? 'text-slate-900' : 'text-slate-300'
             }`}
           />

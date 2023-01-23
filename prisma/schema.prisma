@@ -8,11 +8,6 @@ generator client {
   url      = env("DATABASE_URL")
 }
 
-//TODO: Add googleBooksId property
-// This is needed so that we can check to see if
-// a book from google books search is also one of mybooks
-// googleBooksId === mybooks.find(book => book.id === googleBooksId)
-// This should be a required property
 model Book {
   id            String   @id @default(cuid())
   googleBooksId String

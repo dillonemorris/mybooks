@@ -1,16 +1,16 @@
 'use client'
 
-import Link from 'next/link'
 import useSWR from 'swr'
-import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import {
   BookOpenIcon,
   MagnifyingGlassPlusIcon,
 } from '@heroicons/react/20/solid'
-import { BookListItem } from '../../components/BookListItem'
-import { BookList } from '../../components/BookList'
-import { BASE_API_ROUTE } from '../../config'
 import { Book } from '@prisma/client'
+import { useSession } from 'next-auth/react'
+import { BASE_API_ROUTE } from '../../config'
+import { BookList } from '../../components/BookList'
+import { BookListItem } from '../../components/BookListItem'
 import { EmptyBookList } from '../../components/EmptyBookList'
 
 const MyBooks = ({ searchParams }) => {
@@ -40,11 +40,13 @@ const MyBooks = ({ searchParams }) => {
         return (
           <BookListItem
             key={book.id}
-            href={`book/${book.googleBooksId}`}
-            title={book.title}
-            authors={book.authors}
-            image={book.image}
-            googleBooksId={book.googleBooksId}
+            book={{
+              href: `mybooks/${book.googleBooksId}`,
+              title: book.title,
+              authors: book.authors,
+              image: book.image,
+              googleBooksId: book.googleBooksId,
+            }}
           />
         )
       })}

@@ -7,9 +7,9 @@ import { UpdateButton } from './UpdateButton'
 
 type BookButtonsProps = {
   book: {
+    image: Book['image']
     title: Book['title']
     authors: Book['authors']
-    image: Book['image']
     googleBooksId: Book['googleBooksId']
   }
 }

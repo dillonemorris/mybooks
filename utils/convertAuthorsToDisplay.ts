@@ -1,4 +1,4 @@
-export default function convertAuthorsToString(authors: string[]) {
+export default function convertAuthorsToDisplay(authors: string[]) {
   if (!authors?.length) {
     return ''
   }

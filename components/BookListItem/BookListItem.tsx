@@ -1,38 +1,36 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { Rating } from '../Rating'
-import convertAuthorsToString from '../../utils/convertAuthorsToString'
+import { RatingStars } from '../Rating'
+import convertAuthorsToDisplay from '../../utils/convertAuthorsToDisplay'
 import { ButtonsLoading } from '../ButtonsLoading'
 
 const BookButtons = dynamic(() => import('../BookButtons'), {
   ssr: false,
-  loading: () => <ButtonsLoading />,
+  loading: ButtonsLoading,
 })
 
 type BookListItemProps = {
-  title: string
-  authors?: string[]
-  href: string
-  image: string
-  googleBooksId?: string
+  book: {
+    href: string
+    title: string
+    image: string
+    authors?: string[]
+    googleBooksId?: string
+    rating?: number
+  }
 }
 
-export const BookListItem = ({
-  title,
-  authors,
-  href,
-  image,
-  googleBooksId,
-}: BookListItemProps) => {
+export const BookListItem = ({ book }: BookListItemProps) => {
+  const { href, title, image, authors, googleBooksId, rating } = book
+
   return (
     <li className="bg-white flex rounded-lg overflow-hidden shadow-sm">
-      {/*TODO: create image fallback (placeholder image) and change to next/image*/}
       <Link href={href}>
         <img
           className="h-full flex-shrink-0 flex"
           style={{ maxWidth: '6.5em', minWidth: '6.5rem' }}
           src={image}
-          alt=""
+          alt={`${title} book cover`}
         />
       </Link>
 
@@ -44,12 +42,14 @@ export const BookListItem = ({
           {title}
         </a>
         <p className="sm:text-md text-sm text-gray-500">
-          {convertAuthorsToString(authors)}
+          {convertAuthorsToDisplay(authors)}
         </p>
 
-        <Rating />
+        {!!rating ? <RatingStars rating={rating} /> : null}
 
         <div className="mt-auto pt-2">
+          {/*TODO: Type dynamically imported component*/}
+          {/*@ts-ignore*/}
           <BookButtons book={{ title, authors, image, googleBooksId }} />
         </div>
       </div>
