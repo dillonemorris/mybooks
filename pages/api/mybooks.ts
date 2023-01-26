@@ -13,6 +13,9 @@ export default async function handler(req, res) {
       where: {
         user: { email: session.user.email },
         title: { contains: req.query.q, mode: 'insensitive' },
+        ...(!!req.query.read && {
+          finished: { equals: req.query.read === 'true' },
+        }),
       },
     })
 

@@ -17,6 +17,7 @@ export default async function handle(
       image,
       googleBooksId,
       finishedAt: finishedAt || null,
+      finished: !!finishedAt,
       user: { connect: { email: session?.user?.email } },
     },
   })

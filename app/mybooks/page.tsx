@@ -8,19 +8,15 @@ import {
 } from '@heroicons/react/20/solid'
 import { Book } from '@prisma/client'
 import { useSession } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import { BASE_API_ROUTE } from '../../config'
 import { BookList } from '../../components/BookList'
 import { BookListItem } from '../../components/BookListItem'
 import { EmptyBookList } from '../../components/EmptyBookList'
 
-const MyBooks = ({ searchParams }) => {
+const MyBooksPage = () => {
+  const books = useMyBooks()
   const { status } = useSession()
-  const myBooksKey = searchParams?.q
-    ? `${BASE_API_ROUTE}/api/mybooks?q=${searchParams.q}`
-    : `${BASE_API_ROUTE}/api/mybooks`
-
-  const { data } = useSWR<{ books: Book[] }>(myBooksKey)
-  const { books } = data
 
   if (status === 'loading') {
     return <EmptyBookList />
@@ -34,8 +30,15 @@ const MyBooks = ({ searchParams }) => {
     return <NoBooks />
   }
 
+  return <MyBooks />
+}
+
+const MyBooks = () => {
+  const books = useMyBooks()
+
   return (
     <BookList>
+      <TabBar />
       {books.map((book) => {
         return (
           <BookListItem
@@ -52,6 +55,19 @@ const MyBooks = ({ searchParams }) => {
       })}
     </BookList>
   )
+}
+
+const useMyBooks = () => {
+  const searchParams = useSearchParams()
+  const searchQuery = searchParams.get('q')
+  const readParam = searchParams.get('read')
+  const baseKey = `${BASE_API_ROUTE}/api/mybooks`
+  const searchKey = !!searchQuery ? `${baseKey}?q=${searchQuery}` : baseKey
+  const key = !!readParam ? `${searchKey}?read=${readParam}` : searchKey
+
+  const { data } = useSWR<{ books: Book[] }>(key)
+
+  return data.books
 }
 
 const UnAuthenticated = () => {
@@ -103,4 +119,64 @@ const NoBooks = () => {
   )
 }
 
-export default MyBooks
+const TabBar = () => {
+  const tabs = useTabs()
+
+  return (
+    <nav
+      className="isolate flex divide-x divide-gray-200 rounded-lg shadow"
+      aria-label="Tabs"
+    >
+      {tabs.map((tab, tabIdx) => (
+        <Link
+          key={tab.name}
+          href={{
+            pathname: '/mybooks',
+            query: tab.readParam ? { read: tab.readParam } : null,
+          }}
+          className={classNames(
+            tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700',
+            tabIdx === 0 ? 'rounded-l-lg' : '',
+            tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '',
+            'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10'
+          )}
+          aria-current={tab.current ? 'page' : undefined}
+        >
+          <span>{tab.name}</span>
+          <span
+            aria-hidden="true"
+            className={classNames(
+              tab.current ? 'bg-indigo-500' : 'bg-transparent',
+              'absolute inset-x-0 bottom-0 h-0.5'
+            )}
+          />
+        </Link>
+      ))}
+    </nav>
+  )
+}
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+const useTabs = () => {
+  const searchParams = useSearchParams()
+  const readParam = searchParams.get('read')
+
+  return [
+    { name: 'All', current: !readParam },
+    {
+      name: 'Want to read',
+      readParam: 'false',
+      current: readParam === 'false',
+    },
+    {
+      name: 'Read',
+      readParam: 'true',
+      current: readParam === 'true',
+    },
+  ]
+}
+
+export default MyBooksPage

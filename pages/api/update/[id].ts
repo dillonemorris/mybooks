@@ -6,7 +6,7 @@ export default async function handle(req, res) {
 
   const book = await prisma.book.update({
     where: { id: bookId },
-    data: { finishedAt },
+    data: { finishedAt, finished: !!finishedAt },
   })
 
   res.json(book)

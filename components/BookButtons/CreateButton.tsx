@@ -19,7 +19,7 @@ export const CreateButton = ({ book }: CreateButtonProps) => {
   const [status, setStatus] = useState<Status>('idle')
   const myBook = useMyBook(book.googleBooksId)
   const createBook = useCreateBook(book, setStatus)
-  const wantToRead = !!myBook && !myBook.finishedAt
+  const wantToRead = !!myBook && !myBook.finished
   const restartBook = useUpdateBook(myBook?.id, { finishedAt: null }, setStatus)
 
   return (

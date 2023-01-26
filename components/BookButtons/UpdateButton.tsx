@@ -20,7 +20,8 @@ export const UpdateButton = ({ book }: UpdateButtonProps) => {
   const myBook = useMyBook(book.googleBooksId)
   const [status, setStatus] = useState<Status>('idle')
   const createAndUpdateBook = useCreateAndUpdateBook(book, setStatus)
-  const hasBeenRead = !!myBook?.finishedAt
+  const hasBeenRead = myBook?.finished
+  console.log(hasBeenRead)
   const finishBook = useFinishBook(book, setStatus)
 
   return (
