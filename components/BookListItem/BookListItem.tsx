@@ -9,6 +9,10 @@ const BookButtons = dynamic(() => import('../BookButtons'), {
   loading: ButtonsLoading,
 })
 
+const Menu = dynamic(() => import('../Menu'), {
+  ssr: false,
+})
+
 type BookListItemProps = {
   book: {
     href: string
@@ -52,6 +56,9 @@ export const BookListItem = ({ book }: BookListItemProps) => {
           {/*@ts-ignore*/}
           <BookButtons book={{ title, authors, image, googleBooksId }} />
         </div>
+      </div>
+      <div className="ml-auto mx-1 my-3">
+        <Menu bookId={googleBooksId} />
       </div>
     </li>
   )

@@ -1,6 +1,6 @@
 import { Book } from '@prisma/client'
 import { getSession } from 'next-auth/react'
-import prisma from '../../lib/prisma'
+import prisma from '../../../lib/prisma'
 import { IncomingMessage } from 'http'
 
 export default async function handle(

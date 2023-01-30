@@ -214,8 +214,3 @@ const useIsPathname = () => {
   const routerPathname = usePathname()
   return (pathname: string) => routerPathname === pathname
 }
-
-// TODO: Move to util file
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}

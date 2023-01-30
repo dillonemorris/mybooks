@@ -21,7 +21,6 @@ export const UpdateButton = ({ book }: UpdateButtonProps) => {
   const [status, setStatus] = useState<Status>('idle')
   const createAndUpdateBook = useCreateAndUpdateBook(book, setStatus)
   const hasBeenRead = myBook?.finished
-  console.log(hasBeenRead)
   const finishBook = useFinishBook(book, setStatus)
 
   return (
