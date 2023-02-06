@@ -2,8 +2,13 @@ import useSWR, { useSWRConfig } from 'swr'
 import { BASE_API_ROUTE } from '../../config'
 import { Book } from '@prisma/client'
 
-// TODO: Type
-const useMyBook = (bookId) => {
+export enum Status {
+  Idle = 'idle',
+  Loading = 'loading',
+  Error = 'error',
+}
+
+const useMyBook = (bookId: Book['googleBooksId']) => {
   const { data } = useMyBooks()
 
   return data.books?.find((myBook) => myBook.googleBooksId === bookId)
@@ -13,27 +18,34 @@ const useMyBooks = () => {
   return useSWR<{ books: Book[] }>(`${BASE_API_ROUTE}/api/mybooks`)
 }
 
-// TODO: Type
-const useCreateBook = (book, setStatus) => {
+type NewBook = {
+  title: Book['title']
+  authors: Book['authors']
+  image: Book['image']
+  googleBooksId: Book['googleBooksId']
+  finishedAt?: Book['finishedAt']
+}
+
+const useCreateBook = (book: NewBook, setStatus: (s: Status) => void) => {
   const { mutate } = useSWRConfig()
 
   return async (e) => {
     e.preventDefault()
-    setStatus('loading')
+    setStatus(Status.Loading)
 
     try {
       await mutate(`${BASE_API_ROUTE}/api/book`, createBook(book))
     } catch (error) {
       console.error(error)
-      setStatus('error')
+      setStatus(Status.Error)
     }
 
     await mutate(`${BASE_API_ROUTE}/api/mybooks`)
-    setStatus('idle')
+    setStatus(Status.Idle)
   }
 }
 
-const createBook = async (book) => {
+const createBook = async (book: NewBook) => {
   await fetch(`${BASE_API_ROUTE}/api/book`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -41,8 +53,13 @@ const createBook = async (book) => {
   })
 }
 
-// TODO: Type
-const useUpdateBook = (bookId, updates, setStatus) => {
+type UpdateHookArgs = {
+  bookId: string
+  finishedAt?: Date
+  setStatus: (s: Status) => void
+}
+
+const useUpdateBook = ({ bookId, finishedAt, setStatus }: UpdateHookArgs) => {
   const { mutate } = useSWRConfig()
 
   if (!bookId) {
@@ -51,30 +68,43 @@ const useUpdateBook = (bookId, updates, setStatus) => {
 
   return async (e) => {
     e.preventDefault()
-    setStatus('loading')
+    setStatus(Status.Loading)
 
     try {
       await mutate(
         `${BASE_API_ROUTE}/api/update/${bookId}`,
-        updateBook(bookId, updates)
+        updateBook(bookId, finishedAt)
       )
     } catch (error) {
       console.error(error)
-      setStatus('error')
+      setStatus(Status.Error)
     }
 
     await mutate(`${BASE_API_ROUTE}/api/mybooks`)
-    setStatus('idle')
+    setStatus(Status.Idle)
   }
 }
 
-// TODO: Type
-const updateBook = async (id, updates) => {
+const updateBook = async (id: string, finishedAt?: Date) => {
   await fetch(`${BASE_API_ROUTE}/api/update/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updates),
+    body: JSON.stringify({ finishedAt }),
   })
+}
+
+export const useCreateAndUpdateBook = (book: NewBook, setStatus) => {
+  const createBook = useCreateBook(
+    {
+      ...book,
+      finishedAt: new Date(),
+    },
+    setStatus
+  )
+
+  return async (e) => {
+    await createBook(e)
+  }
 }
 
 export { useUpdateBook, useCreateBook, useMyBook }

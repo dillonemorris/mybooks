@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { Book } from '@prisma/client'
-import { useCreateBook, useMyBook, useUpdateBook } from './hooks'
+import { Status, useCreateBook, useMyBook, useUpdateBook } from './hooks'
 import { Button } from './Button'
-
-// TODO: Change to enum?
-type Status = 'idle' | 'loading' | 'error' | 'success'
 
 type CreateButtonProps = {
   book: {
@@ -16,17 +13,21 @@ type CreateButtonProps = {
 }
 
 export const CreateButton = ({ book }: CreateButtonProps) => {
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<Status>(Status.Idle)
   const myBook = useMyBook(book.googleBooksId)
   const createBook = useCreateBook(book, setStatus)
   const wantToRead = !!myBook && !myBook.finished
-  const restartBook = useUpdateBook(myBook?.id, { finishedAt: null }, setStatus)
+  const restartBook = useUpdateBook({
+    bookId: myBook?.id,
+    finishedAt: null,
+    setStatus,
+  })
 
   return (
     <Button
       onClick={!!myBook ? restartBook : createBook}
       isActive={wantToRead}
-      isLoading={status === 'loading'}
+      isLoading={status === Status.Loading}
     >
       Want to read
     </Button>

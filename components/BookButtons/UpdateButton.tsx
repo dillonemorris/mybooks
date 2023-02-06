@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Book } from '@prisma/client'
 import './style.css'
-import { useCreateBook, useMyBook, useUpdateBook } from './hooks'
+import {
+  Status,
+  useCreateAndUpdateBook,
+  useMyBook,
+  useUpdateBook,
+} from './hooks'
 import { Button } from './Button'
-
-// TODO: Change to enum?
-type Status = 'idle' | 'loading' | 'error' | 'success'
 
 type UpdateButtonProps = {
   book: {
@@ -18,39 +20,28 @@ type UpdateButtonProps = {
 
 export const UpdateButton = ({ book }: UpdateButtonProps) => {
   const myBook = useMyBook(book.googleBooksId)
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<Status>(Status.Idle)
   const createAndUpdateBook = useCreateAndUpdateBook(book, setStatus)
   const hasBeenRead = myBook?.finished
-  const finishBook = useFinishBook(book, setStatus)
+  const finishBook = useFinishBook(book.googleBooksId, setStatus)
 
   return (
     <Button
       onClick={!!myBook ? finishBook : createAndUpdateBook}
       isActive={hasBeenRead}
-      isLoading={status === 'loading'}
+      isLoading={status === Status.Loading}
     >
       Read
     </Button>
   )
 }
 
-// TODO: Type
-const useCreateAndUpdateBook = (book, setStatus) => {
-  const createBook = useCreateBook(
-    {
-      ...book,
-      finishedAt: new Date(),
-    },
-    setStatus
-  )
+const useFinishBook = (bookId: string, setStatus) => {
+  const myBook = useMyBook(bookId)
 
-  return async (e) => {
-    await createBook(e)
-  }
-}
-
-const useFinishBook = (book, setStatus) => {
-  const myBook = useMyBook(book.googleBooksId)
-
-  return useUpdateBook(myBook?.id, { finishedAt: new Date() }, setStatus)
+  return useUpdateBook({
+    bookId: myBook?.id,
+    finishedAt: new Date(),
+    setStatus,
+  })
 }
