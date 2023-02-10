@@ -1,4 +1,4 @@
-import { RatingStars } from '../../../components/Rating'
+import { Rating } from '../../../components/Rating'
 
 const Loading = () => {
   return (
@@ -6,7 +6,7 @@ const Loading = () => {
       <div className="rounded-lg bg-slate-200 w-36 h-52" />
       <div className="h-12 w-full bg-slate-200 rounded" />
       <div className="h-8 w-36 bg-slate-200 rounded" />
-      <RatingStars rating={0} />
+      <Rating rating={0} />
     </div>
   )
 }

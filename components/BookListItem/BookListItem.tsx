@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { RatingStars } from '../Rating'
+import { Rating } from '../Rating'
 import convertAuthorsToDisplay from '../../utils/convertAuthorsToDisplay'
 import { ButtonsLoading } from '../ButtonsLoading'
 
@@ -21,11 +21,13 @@ type BookListItemProps = {
     authors?: string[]
     googleBooksId?: string
     rating?: number
+    ratingsCount?: number
   }
 }
 
 export const BookListItem = ({ book }: BookListItemProps) => {
-  const { href, title, image, authors, googleBooksId, rating } = book
+  const { href, title, image, authors, googleBooksId, rating, ratingsCount } =
+    book
 
   return (
     <li className="bg-white flex rounded-lg overflow-hidden shadow-sm">
@@ -45,11 +47,13 @@ export const BookListItem = ({ book }: BookListItemProps) => {
         >
           {title}
         </a>
-        <p className="sm:text-md text-sm text-gray-500">
-          {convertAuthorsToDisplay(authors)}
+        <p className="font-normal sm:text-md text-sm text-gray-900">
+          by {convertAuthorsToDisplay(authors)}
         </p>
 
-        {!!rating ? <RatingStars rating={rating} /> : null}
+        {!!rating ? (
+          <Rating rating={rating} ratingsCount={ratingsCount} />
+        ) : null}
 
         <div className="mt-auto pt-2">
           {/*TODO: Type dynamically imported component*/}

@@ -36,14 +36,13 @@ const Discover = async ({ searchParams }) => {
           <BookListItem
             key={book.id}
             book={{
-              // The book could be a mybook so the href needs to support both routes
               href: `/discover/${book.id}`,
               title: book.volumeInfo.title,
               authors: book.volumeInfo.authors,
               image: book.volumeInfo?.imageLinks?.thumbnail,
               googleBooksId: book.id,
               rating: book.volumeInfo?.averageRating,
-              // TODO: Include ratings count & published year
+              ratingsCount: book.volumeInfo?.ratingsCount,
             }}
           />
         )

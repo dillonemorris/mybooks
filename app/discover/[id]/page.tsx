@@ -1,5 +1,5 @@
 import { books } from '@googleapis/books'
-import { RatingStars } from '../../../components/Rating'
+import { Rating } from '../../../components/Rating'
 import { BookDetail } from '../../../components/BookDetail'
 
 const Book = async ({ params }) => {
@@ -7,6 +7,7 @@ const Book = async ({ params }) => {
   const { authors, title, imageLinks, description } = book.volumeInfo
   const image = imageLinks?.thumbnail
   const rating = book.volumeInfo?.averageRating
+  const ratingsCount = book.volumeInfo?.ratingsCount
 
   return (
     <BookDetail
@@ -18,7 +19,7 @@ const Book = async ({ params }) => {
         googleBooksId: params.id,
       }}
     >
-      {rating ? <RatingStars rating={rating} /> : null}
+      {!!rating ? <Rating ratingsCount={ratingsCount} rating={rating} /> : null}
     </BookDetail>
   )
 }
