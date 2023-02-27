@@ -1,3 +1,4 @@
-// TODO: Include prod url
 export const BASE_API_ROUTE =
-  process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000'
+  process.env.NODE_ENV === 'production'
+    ? 'https://dillon-morris-mybooks.vercel.app'
+    : 'http://localhost:3000'
