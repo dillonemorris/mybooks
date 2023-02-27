@@ -6,6 +6,7 @@ export default async function handler(req, res) {
 
   if (!session) {
     res.status(403).json({ books: [] })
+    return
   }
 
   try {
